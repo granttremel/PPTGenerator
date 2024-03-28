@@ -34,7 +34,7 @@ F = range(1,8)
 Z = 6
 W = ['BB','GG','YY','RR','RN','BG']
 
-cstr = cosmx_strings.cstringmanager(S=S,C=C,P=P,N=N,F=F,Z=Z,W=W)
+cstr = cosmx_strings.cstringmanager(S=S,C=C,P=P,N=N,Z=Z,F=F,W=W)
 
 cstr.set_dir(exppath)
 

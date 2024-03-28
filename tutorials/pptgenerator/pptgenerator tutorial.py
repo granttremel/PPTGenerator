@@ -3,7 +3,7 @@
 PPTGenerator tutorial
 **********************************************
 
-Step 0: Clone the glib repository
+Step 0: Clone the PPTGenerator repository
 1. Download git bash from https://git-scm.com/downloads
 2. Navigate to the desired directory and input the command:
         git clone https://github.com/granttremel/PPTGenerator.git
@@ -31,11 +31,11 @@ Step 0: Clone the glib repository
 
 #%%
 #these are the necessary imports
-from glib import ppt
-from glib import cosmx_strings
+from PPTGenerator import ppt
+from PPTGenerator import cosmx_strings
 
 #not necessary but nice to have
-from glib import gtools as gt
+from PPTGenerator import util
 
 #%% cosmx string manager setup
 
@@ -51,9 +51,9 @@ channels should correspond to a valid channel combo, etc. Anything invalid will
 be skipped
 """
 #Flow cell
-S = 3
+S = [2,3]
 #Cycle
-C = [2]
+C = [1]
 #Pool
 P = 0
 #Reporter
@@ -61,13 +61,13 @@ N = range(1,55,2)
 #FOV
 F = range(1,8)
 #Z-slice
-Z = 4 
+Z = []
 #Channel
 W = ['BB','GG','YY','RR','RN','BG']
 
 #Initialize the cosmx string manager by assigning variables defined above to
 #The SCPNFZW keyword argments. Do not skip any!
-cstr = cosmx_strings.cstringmanager(S=S,C=C,P=P,N=N,F=F,Z=Z,W=W)
+cstr = cosmx_strings.cstringmanager(S=S,C=C,P=P,N=N,Z=Z,F=F,W=W)
 
 #This sets the directory of the cosmx string manager to the experiment directory
 cstr.set_dir(exppath)
@@ -118,7 +118,7 @@ cstr.set_groups('F','W')
 #please make local copies of these files! because of limitations of the 
 #pptx library, these templates exactly are required to generate the output.
 #ppt output path may be a gt.fp object or a raw file path.
-ppt_output_path = gt.fp(r'C:\\Dash\\Data\\nc78.pptx')
+ppt_output_path = util.fp(r'C:\\Dash\\Data\\nc78.pptx')
 template_path = r'C:\Users\gtremel\Documents\Python Scripts\pptx_nstg_formats'
 
 #%% The pptgenerator params
@@ -141,7 +141,7 @@ params.margins = [1.0,0.5,0.5,0.5]
 #small value can make a more attractive slide, but setting to 0 is more space
 #efficient. Note that this is more like the minimum value of the separation
 #between images, the actual separation may be larger if space allows.
-params.sep = 0.1
+params.sep = 0.0
 
 #The crop parameter allows you to crop the images to a reduced size, showing 
 #less of the FOV but increasing the size of the features to be visualized. The 
@@ -163,7 +163,7 @@ params.crop = [(0.2,0.7),(0.3,0.6)]
 # ('F','W'), so channels (W) are the fastest iterating group. Since there are 
 # 6 channels in play (len(W) = 6), the best option for tile_cols is 6. Different
 #values can give you access to greater variety of customization
-params.tile_cols = 6
+params.tile_cols = len(W)
 
 #This parameter tells the pptgenerator whether or not to attempt to generate
 #auto labels. This works best when the rows and columns of the grid of images
@@ -205,7 +205,7 @@ params.contrast_calculate_mode = 0
 #either of these values, then the grid will overflow to subsequence slides until
 #the display group is completed. To disable each of these settings, set to -1,
 #and only one of these values should be set! 
-params.max_rows = 5
+params.max_rows = 4
 params.max_per_slide = -1
 
 #This parameter will set the ppt to a dark style. this is easier on the eyes and
@@ -223,7 +223,8 @@ params = ppt.pptgeneratorparams(
     margins = [1.0,0.5,0.5,0.5],
     sep = 0.1,
     crop = [(0.2,0.7),(0.3,0.6)],
-    tile_cols = 6
+    tile_cols = 6,
+    dark_mode = True
     )
 
 #any keyword arguments provided will be used, and any not provided will fall 
@@ -265,14 +266,16 @@ You can also provide a unique contrast bound to every image in the display group
 but that's probably overkill
 """
 
-contrast_data = [
-    (1,99.5), #BB
-    (1,97), #GG
-    (1,97), #YY
-    (1,99), #RR
-    (0,99), #RN
-    (1,99.5) #BG
-    ]
+# contrast_data = [
+#     (1,99.5), #BB
+#     (1,97), #GG
+#     (1,97), #YY
+#     (1,99), #RR
+#     (0,99), #RN
+#     (1,99.5) #BG
+#     ]
+
+contrast_data =[(1,99)]
 
 #%% Finally, initialize the ppt generator
 
@@ -327,7 +330,8 @@ After loading the images once, it will make a local copy with the same name as
 the ppt file to streamline reloading the image later.
 """
 
-pptg.generate() 
+pptg.generate_first() 
+pptg.generate()
 
 #%% Cleanup
 """
