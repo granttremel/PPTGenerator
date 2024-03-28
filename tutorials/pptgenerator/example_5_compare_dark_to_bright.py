@@ -4,9 +4,10 @@ User Story
 
 """
 
-from glib import gtools as gt
-from glib import ppt
-from glib import cosmx_strings
+from PPTGenerator.util import fp
+from PPTGenerator import ppt
+from PPTGenerator import cosmx_strings
+
 
 #%%
 exppath = r"\\beta04\E\RunNC91_20240320_beta04_D-DNA-BlockingOligos-Exp2"
@@ -26,7 +27,7 @@ cstr.set_groups('N','W')
 
 #%%
 
-pptfp = gt.fp(r'C:\\Dash\\Data\\example5.pptx')
+pptfp = fp(r'C:\Dash\Data\example5.pptx')
 template_path = r'C:\Users\gtremel\Documents\Python Scripts\pptx_nstg_formats'
 params = ppt.pptgeneratorparams(
     margins = [1.0,0.0,0.0,0.0],

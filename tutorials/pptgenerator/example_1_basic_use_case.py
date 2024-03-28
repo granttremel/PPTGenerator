@@ -16,10 +16,11 @@ I want to verify the following
 
 #%%
 
-from glib import ppt
-from glib import cosmx_strings
 
-from glib import gtools as gt
+from PPTGenerator.util import fp
+from PPTGenerator import ppt
+from PPTGenerator import cosmx_strings
+
 
 #%%
 
@@ -39,7 +40,7 @@ cstr.set_dir(exppath)
 
 cstr.set_groups('N','F','W')
 
-ppt_output_path = gt.fp(r'C:\\Dash\\Data\\example1.pptx')
+ppt_output_path = fp(r'C:\Dash\Data\example1.pptx')
 template_path = r'C:\Users\gtremel\Documents\Python Scripts\pptx_nstg_formats'
 
 #%%
@@ -53,7 +54,7 @@ params = ppt.pptgeneratorparams(
     max_rows = 4,
     contrast_broadcast_mode = -1,
     contrast_group = ('S','W'),
-    contrast_calculate_mode = 3,
+    contrast_calculate_mode = 1,
     max_per_slide = -1,
     dark_mode = True,
     save_pngs = True
@@ -73,6 +74,5 @@ pptg = ppt.pptgenerator(ppt_output_path, cstr, params, contrast_data)
 pptg.set_template_path(template_path)
 
 #%%
-# pptg.set_contrast_data(contrast_data)
-# pptg.generate_first()
-pptg.generate(1)
+
+pptg.generate()

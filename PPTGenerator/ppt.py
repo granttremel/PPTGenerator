@@ -17,11 +17,7 @@ from datetime import datetime,timedelta
 from enum import Enum,IntEnum
 
 from . import util
-# from glib import gtools as gt
-# from glib import improc as ip
-# from glib import plotting as gplt
 from . import cosmx_strings
-# from glib import logger
 
 import traceback
 import matplotlib as mpl
@@ -44,7 +40,7 @@ class pptgenerator:
             self.fp  = fp
         else:
             self.fp = util.fp(fp)
-        self.template_path = self.fp.ftot
+        self.template_path = ''
         self.cstr = cstr
         self.nims = len(cstr)
         self.gridshape = tuple()
