@@ -1,0 +1,1 @@
+glib_version = "0.1"
