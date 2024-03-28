@@ -20,7 +20,7 @@ from . import util
 # from glib import gtools as gt
 # from glib import improc as ip
 # from glib import plotting as gplt
-from glib import cosmx_strings
+from . import cosmx_strings
 # from glib import logger
 
 import traceback

@@ -1,0 +1,8 @@
+imageio==2.33.1
+matplotlib==3.8.2
+numpy==1.23.5
+opencv_python==4.7.0.72
+Pillow
+python_pptx==0.6.23
+tifffile==2024.2.12
+imagecodecs

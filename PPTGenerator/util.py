@@ -8,6 +8,7 @@ import os.path as pth
 import cv2
 from PIL import Image
 from PIL.TiffTags import TAGS
+import tifffile as tf
 import imageio
 import json
 
@@ -111,6 +112,8 @@ def crop_bds(im,bounds, relative = False):
     else:
         cropbds += tuple([slice(int(_min),int(_max)) for (_min,_max) in bounds])
  
+    cropbds = tuple(reversed(cropbds))   
+ 
     return im[cropbds]
 
 def read_im(fp):
@@ -150,6 +153,33 @@ def read_stack(fp,force_stack = True, inds = tuple()):
     
     return s,np.array(ims)
 
+def read_multichan_substack(fp, keys = []):
+    
+    outdict = dict()
+    
+    with tf.TiffFile(str(fp)) as im:
+        npages = len(im.pages)
+        md = im.pages[0].tags
+        imdesc = json.loads(md['ImageDescription'].value)
+        
+        if 'ChannelOrder_ExEm' in imdesc:
+            labels = imdesc['ChannelOrder_ExEm']
+        elif 'ChannelOrder' in imdesc:
+            labels = [a+a for a in imdesc['ChannelOrder']]
+            
+        if not keys:
+            keys = labels
+            
+        for key in keys:
+            if not key in labels:
+                print(f'Key {key} not located in image. Skipping...')
+                continue
+            
+            ind = labels.index(key)
+            pagedata = im.pages[ind].asarray()
+            outdict[key] = pagedata
+            
+    return outdict
 
 def write_png(_fp,im,vmin, vmax):
     
