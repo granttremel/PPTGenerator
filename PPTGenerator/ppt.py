@@ -183,14 +183,18 @@ class pptgenerator:
             ncs_title = code.to_string_except(*self.cstr.groups)
             if self.params.max_per_slide > 0:
                 nslidesperfigset = int(np.ceil(len(figs) / self.params.max_per_slide))
+                nfigsperslide = self.params.max_per_slide
             else:
                 nslidesperfigset = 1
+                
+            nfigsperslide = self.gridshape[0]*self.gridshape[1]
             
             for n in range(nslidesperfigset):
-                nmin = n*self.params.max_per_slide
-                nmax = nmin + self.params.max_per_slide
+                nmin = n*nfigsperslide
+                nmax = nmin + nfigsperslide
                 croppedcodes = self.codelist[k][nmin:nmax]
                 croppedfigs = figlist[nmin:nmax]
+                
                 self.append_tiled_slide(croppedfigs,croppedcodes,ncs_title)
                 
             nrounds +=1
@@ -219,6 +223,7 @@ class pptgenerator:
             collabels,rowlabels = self.collabels,self.rowlabels
         
         try:
+            # print(len(figlist))
             add_tiled_ims(self.prs,
                           ncs,
                           figlist,
