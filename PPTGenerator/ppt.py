@@ -183,11 +183,10 @@ class pptgenerator:
             ncs_title = code.to_string_except(*self.cstr.groups)
             if self.params.max_per_slide > 0:
                 nslidesperfigset = int(np.ceil(len(figs) / self.params.max_per_slide))
-                nfigsperslide = self.params.max_per_slide
+                nfigsperslide = min(len(figlist),self.params.max_per_slide)
             else:
-                nslidesperfigset = 1
-                
-            nfigsperslide = self.gridshape[0]*self.gridshape[1]
+                nslidesperfigset = 1    
+                nfigsperslide = min(len(figlist),self.gridshape[0]*self.gridshape[1])
             
             for n in range(nslidesperfigset):
                 nmin = n*nfigsperslide
