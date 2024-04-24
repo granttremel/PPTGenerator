@@ -18,6 +18,8 @@ Step 0: Clone the PPTGenerator repository
         conda install pip
         pip install -r "<path-to-repos>/requirements.txt"
         conda develop "<path-to-repos>"
+        ALTERNATIVELY:
+        python -m pip install "<path-to-repos>/dist/PPTGenerator-1.0.tar.gz"
 
 6. In the anaconda console with the venv activated, type python (or otherwise
     enter your python environment) and type:
@@ -224,6 +226,7 @@ params = ppt.pptgeneratorparams(
     sep = 0.1,
     crop = [(0.2,0.7),(0.3,0.6)],
     tile_cols = 6,
+    max_rows = 4,
     dark_mode = True
     )
 
